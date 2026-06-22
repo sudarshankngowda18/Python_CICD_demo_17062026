@@ -1,0 +1,7 @@
+when ever you make changes
+
+cd "change to working directory"
+git add .
+git commit -m "Describe what you changed"
+# git pull origin main --rebase #NOT NEEDED
+git push origin main
