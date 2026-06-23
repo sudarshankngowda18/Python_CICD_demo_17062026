@@ -1,34 +1,24 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from math_operations import add
 
 app = Flask(__name__)
 
-@app.route("/", methods=["GET", "POST"])
-def home():
-
-    result = None
-
-    if request.method == "POST":
-        num1 = int(request.form["num1"])
-        num2 = int(request.form["num2"])
-
-        result = add(num1, num2)
-
-    return f"""
-    <h2>Addition Calculator</h2>
-
-    <form method="POST">
-        Number 1:
-        <input type="number" name="num1"><br><br>
-
-        Number 2:
-        <input type="number" name="num2"><br><br>
-
-        <input type="submit" value="Add">
-    </form>
-
-    <h3>Result: {result if result is not None else ''}</h3>
-    """
+@app.route("/add", methods=["GET", "POST"])
+def add_numbers():
+        data = request.get_json()
+        a = data["a"]
+        b = data["b"]
+        result = add(a,b)
+        return jsonify({
+            "results": result
+            })
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000)
+    
+
+#%%
+# curl -X POST http://127.0.0.1:5000/add ^
+# -H "Content-Type: application/json" ^
+# -d "{\"a\":10,\"b\":5}"
+#%%
